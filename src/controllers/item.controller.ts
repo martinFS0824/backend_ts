@@ -51,8 +51,7 @@ export const createItem = async (req: Request, res: Response) => {
 
 export const updateItem = async (req: Request, res: Response) => {
     try {
-        const { title, author, edition, editor, genre, img, description } = req.body
-        const libroActualizado = await Libro.findByIdAndUpdate(req.params.id, { title, author, edition, editor, genre, img, description})
+        const libroActualizado = await Libro.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.status(200).json({ libroActualizado, statusCode: 200, msj: "ok" })
     } catch (error) {
         if (error instanceof Error) {
