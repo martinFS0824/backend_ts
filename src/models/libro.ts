@@ -21,7 +21,7 @@ const libroSchema = new Schema<ILibro>(
         img: { type: String },
         description: { type: String },
         info: { type: String }
-    },
+     },
     {timestamps: true} 
 )
 

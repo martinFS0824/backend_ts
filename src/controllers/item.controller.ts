@@ -1,4 +1,4 @@
-import { Request, response, Response } from "express"
+import { Request, Response } from "express"
 import { Libro } from "../models/libro"
 import axios from 'axios'
 
@@ -35,10 +35,9 @@ export const getItemsById = async (req: Request, res: Response) => {
 
 export const createItem = async (req: Request, res: Response) => {
     try {
-       const { title, author, edition, editor, genre, img, description } = req.body;
-       const {data} = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}`)
+       const {data} = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`)
        const info = data.items[0].volumeInfo.description;
-       const nuevoLibro = await Libro.create({ title, author, edition, editor, genre, img, description, info })
+       const nuevoLibro = await Libro.create({ ...req.body, info })
        res.status(201).json({ nuevoLibro, statusCode: 201, msj: "ok" })
     } catch (error) {
        if (error instanceof Error) {

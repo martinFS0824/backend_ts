@@ -53,10 +53,9 @@ const getItemsById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.getItemsById = getItemsById;
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, author, edition, editor, genre, img, description } = req.body;
-        const { data } = yield axios_1.default.get(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}`);
+        const { data } = yield axios_1.default.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.title}+inauthor:${req.body.author}`);
         const info = data.items[0].volumeInfo.description;
-        const nuevoLibro = yield libro_1.Libro.create({ title, author, edition, editor, genre, img, description, info });
+        const nuevoLibro = yield libro_1.Libro.create(Object.assign(Object.assign({}, req.body), { info }));
         res.status(201).json({ nuevoLibro, statusCode: 201, msj: "ok" });
     }
     catch (error) {
@@ -71,8 +70,7 @@ const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createItem = createItem;
 const updateItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, author, edition, editor, genre, img, description } = req.body;
-        const libroActualizado = yield libro_1.Libro.findByIdAndUpdate(req.params.id, { title, author, edition, editor, genre, img, description });
+        const libroActualizado = yield libro_1.Libro.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json({ libroActualizado, statusCode: 200, msj: "ok" });
     }
     catch (error) {

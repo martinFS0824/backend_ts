@@ -18,7 +18,7 @@ const config_1 = require("../config");
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(config_1.config.mongoURL);
-        console.log('Conectado a la base de datos...');
+        console.log('Conectado a la base de datos (=__=)');
     }
     catch (error) {
         if (error instanceof Error) {
